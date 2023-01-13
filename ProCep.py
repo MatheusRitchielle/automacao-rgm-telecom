@@ -41,8 +41,8 @@ def find_cnpjs():
             file.close()
         except:
             print('Não foi possível salvar o CEP: ' + cep)
+    print('Consulta realizada com sucesso!')
 
-print('Consulta realizada com sucesso!')
 window = Tk()
 window.title('Automação ProCep')
 
