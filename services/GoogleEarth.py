@@ -7,14 +7,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from datetime import datetime
 
+file_segments = open('C:\Matheus\www\\automacao-rgm-receita\docs\segmentos.txt', 'r')
+
 def position_mouse():
     x, y = gui.position()
     print('Posicao atual do mouse: x = ' + str(x) + ' y = ' + str(y))
-    print(datetime.now())
-def find_google_earth():
 
-    ceps = ['Teresópolis, Rj', 'Guapimirim, Rj', 'Niterói, Rj']
-    file_segments = open('C:\Matheus\www\\automacao-rgm-receita\docs\segmentos.txt', 'r')
+def find_google_earth():
+    address = ['Teresopolis, Rj']
 
     my_service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=my_service)
@@ -32,11 +32,11 @@ def find_google_earth():
     gui.hotkey('enter')
     time.sleep(15)
 
-    try:
-        for cep in ceps:
-            segments = file_segments.readlines()
-            for seg in segments:
-                gui.write(seg + ' ' + cep)
+    for add in address:
+        segments = file_segments.readlines()
+        for seg in segments:
+            try:
+                gui.write(seg + ' ' + add)
                 time.sleep(2)
                 gui.hotkey('enter')
                 time.sleep(5)
@@ -63,18 +63,12 @@ def find_google_earth():
                 time.sleep(2)
                 gui.hotkey('delete')
                 time.sleep(2)
-                try:
-                    file = open('C:\Matheus\www\\automacao-rgm-receita\docs\log.txt', 'a')
-                    file.write(seg + ' ' + cep + ' realizado com sucesso! -- ' + str(datetime.now()))
-                    file.close()
-                except:
-                    file = open('C:\Matheus\www\\automacao-rgm-receita\docs\error.txt', 'a')
-                    file.write('Não foi possível consultar: ' + seg + ' ' + cep + ' -- ' + str(datetime.now()))
-                    file.close()
-
-    except:
-        file = open('C:\Matheus\www\\automacao-rgm-receita\docs\error.txt', 'a')
-        file.write('Não foi possível consultar: ' + seg + ' ' + cep + ' -- ' + str(datetime.now()))
-        file.close()
+                file = open('C:\Matheus\www\\automacao-rgm-receita\docs\log.txt', 'a')
+                file.write(seg + ' ' + add + ' realizado com sucesso! -- ' + str(datetime.now()))
+                file.close()
+            except:
+                file = open('C:\Matheus\www\\automacao-rgm-receita\docs\error.txt', 'a')
+                file.write('Não foi possível consultar: ' + seg + ' ' + add + ' -- ' + str(datetime.now()))
+                file.close()
     gui.hotkey('alt', 'f4')
     print('Programa finalizado com sucesso!')
