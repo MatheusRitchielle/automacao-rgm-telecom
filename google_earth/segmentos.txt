@@ -7,8 +7,8 @@ Ar Condicionado
 Arquiteto
 Decoracao
 Assistencia
-Associação
-Barbaria
+Associacao
+Barbearia
 Bares
 Restaurantes
 Biomedicos
@@ -29,7 +29,7 @@ Confeccao
 Construcao
 Contabilidade
 Cosmeticos
-Curos
+Cursos
 Dedetizacao
 Dentista
 Detalhamento
@@ -85,7 +85,7 @@ Refrigeração
 Salao
 Serralheria
 Supermercados
-Tapeçaria
+Tapecaria
 Tatuagem
 Terapia
 Tintas

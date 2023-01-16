@@ -6,11 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
-
 from tkinter import filedialog
-
-def explorer_files():
-    path_cep = filedialog.askopenfilename()
 
 def find_cnpjs():
     my_service = Service(ChromeDriverManager().install())
@@ -18,13 +14,13 @@ def find_cnpjs():
     browser.get('https://www.procep.com.br')
     browser.maximize_window()
 
-    file_cep = open('C:\Matheus\www\\automacao-rgm-receita\download\pasta ceps\ceps.txt', 'r')
+    path_cep = filedialog.askopenfilename()
+    file_cep = open(path_cep, 'r')
     lines = file_cep.readlines()
 
     for line in lines:
         cep = str(line)
         time.sleep(3)
-
         try:
             browser.find_element('xpath', '//*[@id="navbarSupportedContent"]/form/input[2]').send_keys(cep)
             time.sleep(3)
@@ -36,7 +32,7 @@ def find_cnpjs():
             print('Não encontramos o CEP: ' + cep)
 
         try:
-            file = open('C:\Matheus\www\\automacao-rgm-receita\download\pasta cnpjs\cnpjs.csv', 'a')
+            file = open('/download/pasta cnpjs/cnpjs.csv', 'a')
             file.write(soup)
             file.close()
         except:

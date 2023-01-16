@@ -1,3 +1,3 @@
-import windows.pricipalWindow as win
+import windows.PrincipalWindow as Win
 
-win()
+Win()
