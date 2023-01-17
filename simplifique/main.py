@@ -1,13 +1,21 @@
 import time
 import pyautogui as gui
+import pandas as pd
 
+from tqdm import tqdm
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 
+from tkinter import filedialog
+
 def synergy_client():
-    cnpj = '29.217.055/0001-30'
+    # path_cnpj = filedialog.askopenfilename()
+    # file_cnpj = open(path_cnpj, 'r')
+    # cnpjs = file_cnpj.readlines()
+
     my_service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=my_service)
 
@@ -16,7 +24,7 @@ def synergy_client():
     time.sleep(20)
 
     browser.find_element('xpath', '//*[@id="username"]').send_keys('80842561')
-    browser.find_element('xpath', '//*[@id="password"]').send_keys('y5RHwA@f')
+    browser.find_element('xpath', '//*[@id="password"]').send_keys('Tel@123456')
     time.sleep(20)
 
     browser.find_element('xpath', '//*[@id="form"]/fieldset/input[4]').click()
@@ -25,35 +33,53 @@ def synergy_client():
     time.sleep(45)
     browser.find_element('xpath', '//*[@id="form"]/fieldset/input').click()
 
-    for i in range(1, 5):
-        try:
-            browser.find_element('xpath', '//*[@id="spn-simuladores"]').click()
-            browser.find_element('xpath', '//*[@id="btnMovelOfertasPreAprovadas"]').click()
+    browser.find_element('xpath', '//*[@id="spn-simuladores"]').click()
+    browser.find_element('xpath', '//*[@id="btnMovelOfertasPreAprovadas"]').click()
 
-            browser.find_element('xpath', '//*[@id="MainContent_lbNovaSimulacao"]').click()
+    browser.find_element('xpath', '//*[@id="MainContent_lbNovaSimulacao"]').click()
+#                      sim                nao                    nao                     sim                sim                 sim
+    cnpjs = ['26.619.437/0001-00', '00.000.036/9316-32', '11.091.215/0001-81', '04.073.818/0001-95', '12.945.474/0001-95', '36.345.663/0001-95', '01.046.360/0001-97', '00.131.738/0001-98', '11.067.093/0001-98', '01.273.914/0001-99', '04.430.111/0001-99', '24.158.383/0001-99', '39.505.136/0001-99']
 
-            time.sleep(3)
-            gui.hotkey('tab', 'tab')
-            gui.hotkey('space')
-            time.sleep(3)
-            browser.find_element('xpath', '//*[@id="MainContent_lbValidaCriarSimulacao"]').click()
+    time.sleep(35)
+    for cnpj in tqdm(cnpjs):
+    # try:
+        time.sleep(2)
+        browser.find_element('xpath', '//*[@id="ucPesquisarCliente_txtPesquisarDocumento"]').clear()
+        browser.find_element('xpath', '//*[@id="ucPesquisarCliente_txtPesquisarDocumento"]').send_keys(cnpj)
+        browser.find_element('xpath', '//*[@id="ucPesquisarCliente_lbPesquisar"]').click()
 
-            browser.find_element('xpath', '//*[@id="ucPesquisarCliente_txtPesquisarDocumento"]').send_keys(cnpj)
-            browser.find_element('xpath', '//*[@id="ucPesquisarCliente_lbPesquisar"]').click()
+        time.sleep(5)
+        browser.find_element(By.CSS_SELECTOR, ".text-info > span").get_attribute('outerHTML')
 
-            time.sleep(3)
-            gui.click(1363, 607)
+        customer_table = browser.find_element(by=By.ID, value='ucPesquisarCliente_gvClientes').get_attribute('outerHTML')
+        soup_customer = BeautifulSoup(customer_table, 'html.parser')
+        empresas = soup_customer.find(name='table')
+        df_table = pd.read_html(str(empresas))[0]
+        df_table.to_csv('sinergia.csv', encoding='UTF-8', header=False, sep=';', index=False)
 
-            browser.find_element('xpath', '//*[@id="ucPesquisarCliente_lbConfirmarCliente"]').click()
+        time.sleep(4)
+        gui.click(1085, 615)
 
-            htmlContent = browser.find_element('xpath', '//*[@id="MainContent_lblSemaforo"]').get_attribute('outerHTML')
-            soup = BeautifulSoup(htmlContent, 'html.parser').getText()
-            browser.find_element('xpath', '//*[@id="pnlBotaoSimplifique"]/a/img').click()
-            print(cnpj + ';' + soup)
-        except:
-            time.sleep(2)
-            gui.click(121, 338)
-            time.sleep(2)
-            gui.click(121, 338)
-            browser.find_element('xpath', '//*[@id="pnlBotaoSimplifique"]/a/img').click()
-            print('Ocorreu um erro inesperado!')
+        time.sleep(2)
+        gui.click(1054, 476)
+        time.sleep(4)
+
+        browser.find_element('xpath', '//*[@id="MainContent_lkbAbrirCreditoC1"]').click()
+        time.sleep(2)
+        htmlContent_situation_detail = browser.find_element(by=By.ID, value='MainContent_UC_CreditoC1_lblCreditoC1').get_attribute('outerHTML')
+        soup_credit = BeautifulSoup(htmlContent_situation_detail, 'html.parser').getText()
+
+        df_table = pd.read_html(str(empresas))[0]
+        df_table['Crédito'] = soup_credit
+        df_table.to_csv('sinergia.csv', encoding='UTF-8', header=False, sep=';', index=False)
+
+        print(df_table)
+
+        print('########################################################################################')
+        browser.back()
+    # except:
+    #     print('Não é um cliente sinergia')
+    #     print('Não foi possível consultar o CNPJ: ' + cnpj)
+
+    time.sleep(2)
+    print('Ocorreu um erro inesperado!')

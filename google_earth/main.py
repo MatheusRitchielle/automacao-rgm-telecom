@@ -7,14 +7,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from datetime import datetime
 
-file_segments = open('google_earth/segmentos.txt', 'r')
+file_segments = open('C:\Matheus\www\\automacao-rgm-telecom\google_earth\segmentos.txt', 'r')
 
 def mouse_position():
     x, y = gui.position()
     print('Posicao atual do mouse: ' + str(x) + ', ' + str(y))
 
 def search_google_earth():
-    address = ['Teresopolis, Rj', 'Guapi, Rj', 'Friburgo, Rj', 'Magé, Rj']
+    address = ['Iguaba Grande, Rj']
 
     my_service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=my_service)
@@ -40,11 +40,11 @@ def search_google_earth():
                 time.sleep(1)
                 gui.hotkey('enter')
                 time.sleep(2)
-                gui.click(45, 759)
+                gui.click(45, 655)
                 time.sleep(2)
                 gui.hotkey('alt', 'tab')
                 time.sleep(2)
-                gui.click(1911, 693)
+                gui.click(1353, 409)
                 time.sleep(1)
                 browser.find_element('xpath', '//*[@id="txt1"]').click()
                 gui.hotkey('ctrl', 'a')
@@ -63,11 +63,11 @@ def search_google_earth():
                 time.sleep(2)
                 gui.hotkey('delete')
                 time.sleep(2)
-                file = open('C:\Matheus\www\\automacao-rgm-receita\docs\log.txt', 'a')
+                file = open('C:\Matheus\www\\automacao-rgm-telecom\docs\log.txt', 'a')
                 file.write(segment + ' ' + add + ' realizado com sucesso! -- ' + str(datetime.now()))
                 file.close()
             except:
-                file = open('C:\Matheus\www\\automacao-rgm-receita\docs\error.txt', 'a')
+                file = open('C:\Matheus\www\\automacao-rgm-telecom\docs\error.txt', 'a')
                 file.write('Não foi possível consultar: ' + segment + ' ' + add + ' -- ' + str(datetime.now()))
                 file.close()
 
