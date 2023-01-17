@@ -8,8 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
-
 from tkinter import filedialog
+from selenium.common.exceptions import NoSuchElementException
 
 def synergy_client():
     # path_cnpj = filedialog.askopenfilename()
@@ -49,7 +49,14 @@ def synergy_client():
         browser.find_element('xpath', '//*[@id="ucPesquisarCliente_lbPesquisar"]').click()
 
         time.sleep(5)
-        browser.find_element(By.CSS_SELECTOR, ".text-info > span").get_attribute('outerHTML')
+
+        try:
+            if browser.find_element(By.CSS_SELECTOR, ".text-info > span"):
+                sinergia = 'Sinergia'
+            else:
+                sinergia = 'Nao'
+        except:
+            print('Error')
 
         customer_table = browser.find_element(by=By.ID, value='ucPesquisarCliente_gvClientes').get_attribute('outerHTML')
         soup_customer = BeautifulSoup(customer_table, 'html.parser')
@@ -71,6 +78,7 @@ def synergy_client():
 
         df_table = pd.read_html(str(empresas))[0]
         df_table['Crédito'] = soup_credit
+        df_table['Sinergia'] = sinergia
         df_table.to_csv('sinergia.csv', encoding='UTF-8', header=False, sep=';', index=False)
 
         print(df_table)
