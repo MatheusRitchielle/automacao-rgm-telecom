@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from datetime import datetime
 
-file_segments = open('C:\Matheus\www\\automacao-rgm-telecom\google_earth\segmentos.txt', 'r')
+file_segments = open('C:\Matheus\www\\automacao-rgm-receita\google_earth\segmentos.txt', 'r')
 
 def mouse_position():
     x, y = gui.position()
