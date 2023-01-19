@@ -1,0 +1,16 @@
+Escritorio
+Advogado
+Assistencia
+Comunicacao
+Contabilidade
+Cursos
+Medicos
+Comercio
+Hoteis
+Imobiliaria
+Profissionais
+Salao
+Terapia
+Dentista
+Esteticas
+Moda
