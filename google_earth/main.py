@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from datetime import datetime
 from tkinter import filedialog
+from pathlib import Path
 
 def mouse_position():
     x, y = gui.position()
@@ -72,3 +73,7 @@ def search_google_earth():
 
     gui.hotkey('alt', 'f4')
     print('Programa finalizado com sucesso!')
+    gui.hotkey('win', 'r')
+    gui.write('shutdown -s -t 3600')
+    gui.hotkey('enter')
+    gui.hotkey('alt', 'f4')

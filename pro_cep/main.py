@@ -32,7 +32,7 @@ def find_cnpjs():
             print('Não encontramos o CEP: ' + cep)
 
         try:
-            file = open('/download/pasta cnpjs/cnpjs.csv', 'a')
+            file = open('C:\Matheus\www\\automacao-rgm-telecom\download\pasta cnpjs\cnpjs.csv', 'a')
             file.write(soup)
             file.close()
         except:

@@ -9,12 +9,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 from tkinter import filedialog
+
 def synergy_client():
     client_type = ''
 
     path_cnpj = filedialog.askopenfilename()
-    file_cnpj = open(path_cnpj, 'r')
-    cnpjs = file_cnpj.readlines()
+    cnpjs = open(path_cnpj, 'r').read().split('\n')
 
     my_service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=my_service)
@@ -37,11 +37,11 @@ def synergy_client():
     browser.find_element('xpath', '//*[@id="MainContent_lbNovaSimulacao"]').click()
 
     time.sleep(35)
-    # df_table = []
     i = 0
     for cnpj in tqdm(cnpjs):
         str(cnpj)
         i = i + 1
+
         try:
             time.sleep(2)
             browser.find_element('xpath', '//*[@id="ucPesquisarCliente_txtPesquisarDocumento"]').clear()
@@ -97,14 +97,12 @@ def synergy_client():
             htmlContent_situation_detail = browser.find_element(by=By.ID, value='MainContent_UC_CreditoC1_lblCreditoC1').get_attribute('outerHTML')
             soup_credit = BeautifulSoup(htmlContent_situation_detail, 'html.parser').getText()
 
-            # df_table.append(pd.read_html(str(empresas))[0])
             df_table['Cliente'] = client_type
             df_table['Crédito'] = soup_credit
 
             df_table.to_csv(filepath, encoding='UTF-8', header=False, sep=';', index=False)
             browser.back()
+            time.sleep(300)
         except:
             print('Ocorreu um erro no processo.')
-    # df = pd.DataFrame.from_records(df_table)
-    # print(df)
     print('Concluido com sucesso')
