@@ -39,9 +39,9 @@ def synergy_client():
     time.sleep(35)
     i = 0
     for cnpj in tqdm(cnpjs):
-        str(cnpj)
-        i = i + 1
-
+        i += 1
+        if i % 15 == 0:
+            time.sleep(300)
         try:
             time.sleep(2)
             browser.find_element('xpath', '//*[@id="ucPesquisarCliente_txtPesquisarDocumento"]').clear()
@@ -53,27 +53,27 @@ def synergy_client():
                if browser.find_element(By.CSS_SELECTOR, ".text-info > span"):
                 client_type = 'Sinergia'
             except:
-                print('')
+                pass
             try:
                if browser.find_element(By.CSS_SELECTOR, ".text-success > span"):
                 client_type = 'Fresh'
             except:
-                print('')
+                pass
             try:
                 if browser.find_element(By.CSS_SELECTOR, ".text-primary > span"):
                     client_type = 'Planta'
             except:
-                print('')
+                pass
             try:
                 if browser.find_element(By.CSS_SELECTOR, ".text-warning > span"):
                     client_type = 'Prioritario'
             except:
-                print('')
+                pass
             try:
                 if browser.find_element(By.CSS_SELECTOR, ".text-danger > span"):
                     client_type = 'PorOut'
             except:
-                print('')
+                pass
 
             filepath = Path(f'C:\Matheus\www\\automacao-rgm-telecom\simplifique\consulta\\{i}.csv')
             filepath.parent.mkdir(parents=True, exist_ok=True)
@@ -87,13 +87,13 @@ def synergy_client():
             time.sleep(2)
             browser.find_element('xpath',  '//*[@id="ucPesquisarCliente_gvClientes_lbSelecionarCliente_0"]').click()
 
-            time.sleep(2)
+            time.sleep(4)
             browser.find_element('xpath', '//*[@id="ucPesquisarCliente_lbConfirmarCliente"]').click()
 
-            time.sleep(2)
+            time.sleep(4)
             browser.find_element('xpath', '//*[@id="MainContent_lkbAbrirCreditoC1"]').click()
 
-            time.sleep(2)
+            time.sleep(4)
             htmlContent_situation_detail = browser.find_element(by=By.ID, value='MainContent_UC_CreditoC1_lblCreditoC1').get_attribute('outerHTML')
             soup_credit = BeautifulSoup(htmlContent_situation_detail, 'html.parser').getText()
 
@@ -102,7 +102,9 @@ def synergy_client():
 
             df_table.to_csv(filepath, encoding='UTF-8', header=False, sep=';', index=False)
             browser.back()
-            time.sleep(300)
         except:
-            print('Ocorreu um erro no processo.')
-    print('Concluido com sucesso')
+            file = open('C:\Matheus\www\\automacao-rgm-telecom\simplifique\consulta\error.txt', 'a')
+            file.write('\n' + cnpj)
+            file.close()
+
+    print('Programa finalizado')
