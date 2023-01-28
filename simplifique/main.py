@@ -2,16 +2,19 @@ import time
 import pandas as pd
 
 from pathlib import Path
-from tqdm import tqdm
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 from tkinter import filedialog
+from docs.credentials import credentials
 
 def synergy_client():
     client_type = ''
+
+    user = credentials.get('user')
+    password = credentials.get('password')
 
     path_cnpj = filedialog.askopenfilename()
     cnpjs = open(path_cnpj, 'r').read().split('\n')
@@ -20,25 +23,27 @@ def synergy_client():
     browser = webdriver.Chrome(service=my_service)
     browser.get('https://pd.simplifiquevivoemp.com.br/Simulacoes.aspx')
     browser.maximize_window()
+    try:
+        time.sleep(20)
+        browser.find_element('xpath', '//*[@id="username"]').send_keys(user)
+        browser.find_element('xpath', '//*[@id="password"]').send_keys(password)
+        time.sleep(20)
+        browser.find_element('xpath', '//*[@id="form"]/fieldset/input[4]').click()
 
-    time.sleep(20)
-    browser.find_element('xpath', '//*[@id="username"]').send_keys('80842561')
-    browser.find_element('xpath', '//*[@id="password"]').send_keys('Tel@123456')
-    time.sleep(20)
-    browser.find_element('xpath', '//*[@id="form"]/fieldset/input[4]').click()
+        browser.find_element('xpath', '//*[@id="email"]').click()
+        browser.find_element('xpath', '//*[@id="form"]/fieldset/input').click()
 
-    browser.find_element('xpath', '//*[@id="email"]').click()
-    browser.find_element('xpath', '//*[@id="form"]/fieldset/input').click()
-
-    time.sleep(45)
-    browser.find_element('xpath', '//*[@id="form"]/fieldset/input').click()
-    browser.find_element('xpath', '//*[@id="spn-simuladores"]').click()
-    browser.find_element('xpath', '//*[@id="btnMovelOfertasPreAprovadas"]').click()
-    browser.find_element('xpath', '//*[@id="MainContent_lbNovaSimulacao"]').click()
+        time.sleep(45)
+        browser.find_element('xpath', '//*[@id="form"]/fieldset/input').click()
+        browser.find_element('xpath', '//*[@id="spn-simuladores"]').click()
+        browser.find_element('xpath', '//*[@id="btnMovelOfertasPreAprovadas"]').click()
+        browser.find_element('xpath', '//*[@id="MainContent_lbNovaSimulacao"]').click()
+    except:
+        pass
 
     time.sleep(35)
     i = 0
-    for cnpj in tqdm(cnpjs):
+    for cnpj in cnpjs:
         i += 1
         if i % 15 == 0:
             time.sleep(300)

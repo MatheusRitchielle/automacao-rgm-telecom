@@ -2,13 +2,12 @@ import time
 import pyautogui as gui
 
 from tqdm import tqdm
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from datetime import datetime
 from tkinter import filedialog
-from pathlib import Path
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 def mouse_position():
     x, y = gui.position()
@@ -35,7 +34,7 @@ def search_google_earth():
     time.sleep(45)
 
     for add in tqdm(address):
-        segments = open('C:\Matheus\www\\automacao-rgm-telecom\google_earth\segmentos.txt', 'r').read().split('\n')
+        segments = open('C:\Matheus\www\\automacao-rgm-telecom\google_earth\Custom.txt', 'r').read().split('\n')
         for segment in tqdm(segments):
             try:
                 gui.write(segment + ' ' + add)
@@ -73,7 +72,7 @@ def search_google_earth():
 
     gui.hotkey('alt', 'f4')
     print('Programa finalizado com sucesso!')
-    gui.hotkey('win', 'r')
-    gui.write('shutdown -s -t 3600')
-    gui.hotkey('enter')
-    gui.hotkey('alt', 'f4')
+    # gui.hotkey('win', 'r')
+    # gui.write('shutdown -s -t 3600')
+    # gui.hotkey('enter')
+    # gui.hotkey('alt', 'f4')
