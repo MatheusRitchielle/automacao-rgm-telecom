@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/automacao-rgm-receita.iml" filepath="$PROJECT_DIR$/.idea/automacao-rgm-receita.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/automacao-rgm-telecom.iml" filepath="$PROJECT_DIR$/.idea/automacao-rgm-telecom.iml" />
     </modules>
   </component>
 </project>
