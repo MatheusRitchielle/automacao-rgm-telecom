@@ -34,7 +34,7 @@ def search_google_earth():
     time.sleep(45)
 
     for add in tqdm(address):
-        segments = open('C:\Matheus\www\\automacao-rgm-telecom\google_earth\Custom.txt', 'r').read().split('\n')
+        segments = open('C:\Matheus\www\\automacao-rgm-telecom\google_earth\segmentos.txt', 'r').read().split('\n')
         for segment in tqdm(segments):
             try:
                 gui.write(segment + ' ' + add)
@@ -72,7 +72,7 @@ def search_google_earth():
 
     gui.hotkey('alt', 'f4')
     print('Programa finalizado com sucesso!')
-    # gui.hotkey('win', 'r')
-    # gui.write('shutdown -s -t 3600')
-    # gui.hotkey('enter')
-    # gui.hotkey('alt', 'f4')
+    gui.hotkey('win', 'r')
+    gui.write('shutdown -s -t 360')
+    gui.hotkey('enter')
+    gui.hotkey('alt', 'f4')

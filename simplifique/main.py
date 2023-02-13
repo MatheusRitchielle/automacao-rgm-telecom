@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 from tkinter import filedialog
 from docs.credentials import credentials
+from tqdm import tqdm
 
 def synergy_client():
     client_type = ''
@@ -43,10 +44,10 @@ def synergy_client():
 
     time.sleep(35)
     i = 0
-    for cnpj in cnpjs:
+    for cnpj in tqdm(cnpjs):
         i += 1
-        if i % 15 == 0:
-            time.sleep(300)
+        # if i % 15 == 0:
+        #     time.sleep(240)
         try:
             time.sleep(2)
             browser.find_element('xpath', '//*[@id="ucPesquisarCliente_txtPesquisarDocumento"]').clear()
@@ -89,7 +90,7 @@ def synergy_client():
             df_table = pd.read_html(str(empresas))[0]
             df_table.to_csv(filepath, encoding='UTF-8', header=False, sep=';', index=False)
 
-            time.sleep(2)
+            time.sleep(4)
             browser.find_element('xpath',  '//*[@id="ucPesquisarCliente_gvClientes_lbSelecionarCliente_0"]').click()
 
             time.sleep(4)
@@ -108,8 +109,9 @@ def synergy_client():
             df_table.to_csv(filepath, encoding='UTF-8', header=False, sep=';', index=False)
             browser.back()
         except:
-            file = open('C:\Matheus\www\\automacao-rgm-telecom\simplifique\consulta\error.txt', 'a')
+            file = open('C:\Matheus\www\\automacao-rgm-telecom\simplifique\error\error.txt', 'a')
             file.write('\n' + cnpj)
             file.close()
+
 
     print('Programa finalizado')
