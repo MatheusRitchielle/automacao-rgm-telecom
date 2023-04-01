@@ -4,6 +4,7 @@ import pro_cep.main as pro_cep
 import google_earth.main as google_earth
 import simplifique.main as simplifique
 import procep_consulta_cnpj.main as find_cnpj
+import sfa.main as sfa
 
 window = Tk()
 window.title('Automação ProCep')
@@ -23,7 +24,10 @@ button_simplifique.grid(column=0, row=4)
 button_find_cnpj = Button(window, text='PROCEP - Busca CNPJ', command=find_cnpj.find_cnpj)
 button_find_cnpj.grid(column=0, row=5)
 
+button_find_cnpj = Button(window, text='SFA', command=sfa.sfa)
+button_find_cnpj.grid(column=0, row=6)
+
 button_position_mouse = Button(window, text='[ X ] POSIÇÃO DO MOUSE [ X ]', command=google_earth.mouse_position)
-button_position_mouse.grid(column=0, row=6)
+button_position_mouse.grid(column=0, row=7)
 
 window.mainloop()

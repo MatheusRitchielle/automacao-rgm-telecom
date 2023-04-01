@@ -10,9 +10,10 @@ from tkinter import filedialog
 from tqdm import tqdm
 
 def find_cnpjs():
+    link = 'https://www.procep.com.br'
     my_service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=my_service)
-    browser.get('https://www.procep.com.br')
+    browser.get(link)
     browser.maximize_window()
 
     path_cep = filedialog.askopenfilename()
@@ -28,13 +29,10 @@ def find_cnpjs():
             time.sleep(3)
             htmlContent = browser.find_element(By.CSS_SELECTOR, '.col-md-8 > .mt-4').get_attribute('outerHTML')
             soup = BeautifulSoup(htmlContent, 'html.parser').getText()
-        except:
-            print('Não encontramos o CEP: ' + cep)
-
-        try:
-            file = open('C:\Matheus\www\\automacao-rgm-telecom\download\pasta cnpjs\cnpjs.csv', 'a')
+            file = open('consulta-cnpjs-procep.txt', 'a')
             file.write(soup)
             file.close()
         except:
-            print('Não foi possível salvar o CEP: ' + cep)
+            print('Erro ao consultar o CEP: ' + cep)
+
     print('Consulta realizada com sucesso!')
